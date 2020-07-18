@@ -12,16 +12,19 @@ We used OpenCV to achieve face detection and Dlib for facial keypoints extractio
 
 The results are shown below:
 
+Original Image:
  <p align="center">
   <img src="./profile.jpg" width="350" title="hover text">
 <!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
 </p>
 
+Keypoints Extraction:
 <p align="center">
   <img src="./rename.png" width="350" title="hover text">
 <!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
 </p>
 
+Enveloping the areas:
 <p align="center">
   <img src="./new.png" width="350" title="hover text">
 <!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
