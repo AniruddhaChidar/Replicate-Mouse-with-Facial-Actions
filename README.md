@@ -14,13 +14,13 @@ The results are shown below:
 
  <div class="row">
   <div class="column">
-    <img src="profile.jpg" alt="Snow" style="width:40%">
+    <img src="profile.jpg" alt="Snow" style="width:30%">
   </div>
   <div class="column">
-    <img src="rename.png" alt="Forest" style="width:40%">
+    <img src="rename.png" alt="Forest" style="width:30%">
   </div>
   <div class="column">
-    <img src="new.png" alt="Mountains" style="width:40%">
+    <img src="new.png" alt="Mountains" style="width:30%">
   </div>
 </div> 
 
