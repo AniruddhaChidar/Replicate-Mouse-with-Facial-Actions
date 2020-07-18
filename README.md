@@ -12,4 +12,17 @@ We used OpenCV to achieve face detection and Dlib for facial keypoints extractio
 
 The results are shown below:
 
- <img src="profile.jpg" width="330" style="float: left; width: 30%; margin-right: 1em; margin-bottom: 0.5em;"> <img src="rename.png" width="330" style="float: center; width:30%; margin-right: 1em; margin-bottom: 0.5em;"> <img src="new.png" width="330" style="float: right; width:30%; margin-right: 1em; margin-bottom: 0.5em;"><p style="clear: both;">
+ <p align="center">
+  <img src="./profile.jpg" width="350" title="hover text">
+  <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text">
+</p>
+
+<p align="center">
+  <img src="./rename.png" width="350" title="hover text">
+<!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
+</p>
+
+<p align="center">
+  <img src="./new.png" width="350" title="hover text">
+<!--   <img src="your_relative_path_here_number_2_large_name" width="350" alt="accessibility text"> -->
+</p>
