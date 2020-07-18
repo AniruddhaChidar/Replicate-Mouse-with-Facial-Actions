@@ -12,16 +12,10 @@ We used OpenCV to achieve face detection and Dlib for facial keypoints extractio
 
 The results are shown below:
 
- <div class="row">
-  <div class="column">
-    <img src="profile.jpg" width="350" alt="Snow" style="width:10%">
-  </div>
-  <div class="column">
-    <img src="rename.png" width="350" alt="Forest" style="width:30%">
-  </div>
-  <div class="column">
-    <img src="new.png" width="350" alt="Mountains" style="width:30%">
-  </div>
-</div> 
+ <img src="profile.jpg" style="float: left; width: 350; margin-right: 1%; margin-bottom: 0.5em;">
 
+<img src="rename.png" style="float: left; width: 350; margin-right: 1%; margin-bottom: 0.5em;">
 
+<img src="new.png" style="float: left; width: 350; margin-right: 1%; margin-bottom: 0.5em;">
+
+<p style="clear: both;">
