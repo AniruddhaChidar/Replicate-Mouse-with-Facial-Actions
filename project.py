@@ -1,3 +1,101 @@
+from collections import namedtuple  
+import matplotlib.pyplot as plt  
+import random
+
+Point = namedtuple('Point', 'x y')
+
+
+class ConvexHull(object):  
+    _points = []
+    _hull_points = []
+
+    def __init__(self):
+        pass
+
+    def add(self, point):
+        self._points.append(point)
+
+    def _get_orientation(self, origin, p1, p2):
+        
+        difference = (
+            ((p2.x - origin.x) * (p1.y - origin.y))
+            - ((p1.x - origin.x) * (p2.y - origin.y))
+        )
+
+        return difference
+
+    def compute_hull(self):
+        '''
+        Computes the points that make up the convex hull.
+        :return:
+        '''
+        points = self._points
+
+        # get leftmost point
+        start = points[0]
+        min_x = start.x
+        for p in points[1:]:
+            if p.x < min_x:
+                min_x = p.x
+                start = p
+
+        point = start
+        self._hull_points.append(start)
+
+        far_point = None
+        while far_point is not start:
+
+            # get the first point (initial max) to use to compare with others
+            p1 = None
+            for p in points:
+                if p is point:
+                    continue
+                else:
+                    p1 = p
+                    break
+
+            far_point = p1
+
+            for p2 in points:
+                # ensure we aren't comparing to self or pivot point
+                if p2 is point or p2 is p1:
+                    continue
+                else:
+                    direction = self._get_orientation(point, far_point, p2)
+                    if direction > 0:
+                        far_point = p2
+
+            self._hull_points.append(far_point)
+            point = far_point
+
+    def get_hull_points(self):
+        if self._points and not self._hull_points:
+            self.compute_hull()
+
+        return self._hull_points
+
+    def display(self):
+        # all points
+        x = [p.x for p in self._points]
+        y = [p.y for p in self._points]
+        plt.plot(x, y, marker='D', linestyle='None')
+
+        # hull points
+        hx = [p.x for p in self._hull_points]
+        hy = [p.y for p in self._hull_points]
+        plt.plot(hx, hy)
+
+        plt.title('Convex Hull')
+        plt.show()
+
+
+def main():  
+    ch = ConvexHull()
+    for _ in range(50):
+        ch.add(Point(random.randint(-100, 100), random.randint(-100, 100)))
+
+    print("Points on hull:", ch.get_hull_points())
+    ch.display()
 from scipy.spatial import distance as dist
 from imutils.video import FileVideoStream
 from imutils.video import VideoStream
@@ -9,6 +107,68 @@ import imutils
 import time
 import dlib
 import cv2
+
+import cv2
+import numpy as np
+
+import numpy as np
+from scipy.misc import imread, imresize
+import matplotlib.pyplot as plt
+
+img = imread('assets/cat.jpg')
+img_tinted = img * [1, 0.95, 0.9]
+
+
+plt.subplot(1, 2, 1)
+plt.imshow(img)
+
+
+plt.subplot(1, 2, 2)
+
+
+plt.imshow(np.uint8(img_tinted))
+plt.show()
+
+
+"""
+params = dict(dp=1,
+              minDist=1,
+              circles=None,
+              param1=300,
+              param2=290,
+              minRadius=1,
+              maxRadius=100)
+"""
+
+img = np.ones((200,250,3), dtype=np.uint8)
+for i in range(50, 80, 1):
+    for j in range(40, 70, 1):
+        img[i][j]*=200
+
+cv2.circle(img, (120,120), 20, (100,200,80), -1)
+
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+canny = cv2.Canny(gray, 200, 300)
+
+# cv2.imshow('shjkgdh', canny)
+gray = cv2.medianBlur(gray, 5)
+circles = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT, 1, 20,
+              param1=100,
+              param2=30,
+              minRadius=0,
+              maxRadius=0)
+
+# print circles
+circles = np.uint16(np.around(circles))
+for i in circles[0,:]:
+    cv2.circle(img,(i[0],i[1]),i[2],(0,255,0),2)
+    cv2.circle(img,(i[0],i[1]),2,(0,0,255),3)
+
+# cv2.imshow('circles', img)
+# k = cv2.waitKey(0)
+# if k == 27:
+#     cv2.destroyAllWindows()
 
 
 # FACIAL_LANDMARKS_IDXS = OrderedDict([
@@ -56,16 +216,14 @@ import cv2
 # 	# return the output image
 # 	return output
 def eye_aspect_ratio(eye):
-	# compute the euclidean distances between the two sets of
-	# vertical eye landmarks (x, y)-coordinates
+	
 	A = dist.euclidean(eye[1], eye[5])
 	B = dist.euclidean(eye[2], eye[4])
-	# compute the euclidean distance between the horizontal
-	# eye landmark (x, y)-coordinates
+	
 	C = dist.euclidean(eye[0], eye[3])
-	# compute the eye aspect ratio
+	
 	ear = (A + B) / (2.0 * C)
-	# return the eye aspect ratio
+	
 	return ear
 
 
@@ -102,13 +260,10 @@ vs = cv2.VideoCapture(0)
 time.sleep(1.0)
 timeout = time.time() + 60*1
 while True:
-	# if this is a file video stream, then we need to check if
-	# there any more frames left in the buffer to process
+	
 	if not(vs.isOpened() and time.time() < timeout):
 		break
-	# grab the frame from the threaded video file stream, resize
-	# it, and convert it to grayscale
-	# channels)
+	
 	frame = vs.read()
 	# print(frame[0])
 	frame = imutils.resize(frame[1], width=450)
@@ -117,13 +272,10 @@ while True:
 	rects = detector(gray, 0)
 
 	for rect in rects:
-		# determine the facial landmarks for the face region, then
-		# convert the facial landmark (x, y)-coordinates to a NumPy
-		# array
+		
 		shape = predictor(gray, rect)
 		shape = face_utils.shape_to_np(shape)
-		# extract the left and right eye coordinates, then use the
-		# coordinates to compute the eye aspect ratio for both eyes
+		
 		leftEye = shape[lStart:lEnd]
 		rightEye = shape[rStart:rEnd]
 
@@ -136,8 +288,7 @@ while True:
 	rightEAR = eye_aspect_ratio(rightEye)
 
 
-	# average the eye aspect ratio together for both eyes
-	# ear = (leftEAR + rightEAR) / 2.0
+	
 
 	leftEyeHull = cv2.convexHull(leftEye)
 	rightEyeHull = cv2.convexHull(rightEye)
@@ -146,11 +297,9 @@ while True:
 
 	if leftEAR < EYE_AR_THRESH:
 			left_COUNTER += 1
-		# otherwise, the eye aspect ratio is not below the blink
-		# threshold
+		
 		else:
-			# if the eyes were closed for a sufficient number of
-			# then increment the total number of blinks
+			
 			if left_COUNTER >= EYE_AR_CONSEC_FRAMES:
 				left_TOTAL += 1
 				mouse.click(Button.left, 1)
